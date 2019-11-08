@@ -13,30 +13,42 @@ class ListaEnlazada:
         self.len = 0
         
     def pop(self, index=None):
-        ultimo = str(self.ult)
+        ultimo = self.ult
+        AntCurrent = self.prim
+        current = AntCurrent.next
+        i = 0
         if index is not None:
             if int(self.len) < index:
                 raise IndexError("Index out of range")
-        else:
-            currentNext = self.prim.next
-            current = self.prim
-            while currentNext is not self.ult:
+            while current is not None:
+                if i == index:
+                    if current.next is None:
+                        self.ult = AntCurrent
+                    borrado = AntCurrent
+                    AntCurrent.next = current.next #ESTO ESTA MAL
+                    self.len -= 1
+                    return borrado
+                i += 1
+                AntCurrent = AntCurrent.next
                 current = current.next
-                print(str(currentNext))
-                currentNext = currentNext.next
-            self.ult = current
-            self.ult.prox = None
-        return str(ultimo)
+        else:
+            while current.next is not None:
+                AntCurrent = AntCurrent.next
+                current = current.next
+            self.ult = AntCurrent
+            self.ult.next = None
+            self.len -= 1
+        return ultimo
     
     def index(self,elem): 
         current = self.prim
         ix = 0
         for i in range(self.len):
-            if current is elem:
+            if current.v == elem:
                 return ix          
             current = current.next
             ix += 1
-        return None
+        return 
     
     def insert(self,index,elem): 
         if self.len < index :
@@ -44,7 +56,22 @@ class ListaEnlazada:
         return
     
     def remove(self, elem): 
-        return 
+        AntCurrent = self.prim
+        current = self.prim.next
+        if AntCurrent.v == elem:
+            self.prim = current
+            self.len -= 1
+            return
+        while current is not None:
+            if current.v == elem:
+                if current.next is None:
+                    self.ult = AntCurrent
+                AntCurrent.next = current.next
+                self.len -= 1
+                return
+            AntCurrent = AntCurrent.next
+            current = current.next
+        raise ValueError
     
     def append(self,elem): 
         if self.prim is None:
@@ -71,7 +98,10 @@ class ListaEnlazada:
            current=current.next
        return str(l)
 
-Lista = ListaEnlazada()
-Lista.append("Nacho")
-Lista.append("Bruno")
-Lista.append("Manu")
+if __name__ == "__main__":
+    Lista = ListaEnlazada()
+    Lista.append("Nacho")
+    Lista.append("Bruno")
+    Lista.append("Manu")
+    Lista.append("Fede")
+    print(Lista)
