@@ -16,15 +16,24 @@ class ListaEnlazada:
         ultimo = self.ult
         AntCurrent = self.prim
         current = AntCurrent.next
-        i = 0
+        i = 1
         if index is not None:
-            if int(self.len) < index:
+            if int(self.len) <= index:
                 raise IndexError("Index out of range")
             while current is not None:
+                if index == 0:
+                        borra3 = AntCurrent
+                        self.prim = AntCurrent.next
+                        self.len -= 1
+                        return borra3
                 if i == index:
                     if current.next is None:
+                        borra = current
                         self.ult = AntCurrent
-                    borrado = AntCurrent
+                        AntCurrent.next = None
+                        self.len -= 1
+                        return borra
+                    borrado = current
                     AntCurrent.next = current.next #ESTO ESTA MAL
                     self.len -= 1
                     return borrado
