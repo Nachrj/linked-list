@@ -66,20 +66,30 @@ class ListaEnlazada:
         AntCurrent = self.prim
         current = self.prim.next
         i = 1
+        if index == 0:
+            nodo.next = self.prim
+            self.prim = nodo
+            if self.len == 0:
+                self.ult = nodo
+            self.len += 1
+            return
         while current is not None:
             if i == index:
+                if index == (self.len - 1):
+                    AntCurrent
                 if current.next is None:
                     self.ult.next = nodo
                     self.ult = nodo
                     self.len += 1
                     return
                 AntCurrent.next = nodo
-                nodo.next = current.next
+                nodo.next = current
                 self.len += 1
+                return
             AntCurrent = AntCurrent.next
             current = current.next
             i += 1
-        if self.len < index :
+        if self.len <= index:
             raise IndexError("Index out of range")
         
         return
@@ -126,10 +136,10 @@ class ListaEnlazada:
            current=current.next
        return repr(l)
 
-if __name__ == "__main__":
+"""if __name__ == "__main__":
     Lista = ListaEnlazada()
     Lista.append("Nacho")
     Lista.append("Bruno")
     Lista.append("Manu")
     Lista.append("Fede")
-    print(Lista)
+    print(Lista)"""
