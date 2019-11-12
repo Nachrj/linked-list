@@ -62,8 +62,26 @@ class ListaEnlazada:
         return 
     
     def insert(self,index,elem): 
+        nodo = Nodo(elem)
+        AntCurrent = self.prim
+        current = self.prim.next
+        i = 1
+        while current is not None:
+            if i == index:
+                if current.next is None:
+                    self.ult.next = nodo
+                    self.ult = nodo
+                    self.len += 1
+                    return
+                AntCurrent.next = nodo
+                nodo.next = current.next
+                self.len += 1
+            AntCurrent = AntCurrent.next
+            current = current.next
+            i += 1
         if self.len < index :
             raise IndexError("Index out of range")
+        
         return
     
     def remove(self, elem): 
@@ -106,7 +124,7 @@ class ListaEnlazada:
        for i in range(self.len):
            l.append(current.v)
            current=current.next
-       return str(l)
+       return repr(l)
 
 if __name__ == "__main__":
     Lista = ListaEnlazada()
