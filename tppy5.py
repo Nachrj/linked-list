@@ -13,6 +13,8 @@ class ListaEnlazada:
         self.len = 0
         
     def pop(self, index=None):
+        if self.prim is None:
+            raise IndexError("Index out of range")
         ultimo = self.ult
         AntCurrent = self.prim
         current = AntCurrent.next
@@ -25,18 +27,18 @@ class ListaEnlazada:
                         borra3 = AntCurrent
                         self.prim = AntCurrent.next
                         self.len -= 1
-                        return borra3
+                        return borra3.v
                 if i == index:
                     if current.next is None:
                         borra = current
                         self.ult = AntCurrent
                         AntCurrent.next = None
                         self.len -= 1
-                        return borra
+                        return borra.v
                     borrado = current
-                    AntCurrent.next = current.next #ESTO ESTA MAL
+                    AntCurrent.next = current.next
                     self.len -= 1
-                    return borrado
+                    return borrado.v
                 i += 1
                 AntCurrent = AntCurrent.next
                 current = current.next
@@ -47,7 +49,7 @@ class ListaEnlazada:
             self.ult = AntCurrent
             self.ult.next = None
             self.len -= 1
-        return ultimo
+        return ultimo.v
     
     def index(self,elem): 
         current = self.prim
@@ -83,18 +85,17 @@ class ListaEnlazada:
         raise ValueError
     
     def append(self,elem): 
+        nodo = Nodo(elem)
         if self.prim is None:
-            self.prim = Nodo(elem)
+            self.prim = nodo
             self.len += 1
+            self.ult = nodo
             return
         else:
+            self.ult.next = nodo
+            self.ult = nodo
             self.len += 1
-            self.ult = Nodo(elem)
-        current = self.prim
-        while current.next is not None:
-            current = current.next
-        current.next = Nodo(elem)
-        return
+            return
     
     def __len__(self):
         return self.len
